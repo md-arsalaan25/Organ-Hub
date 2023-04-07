@@ -2,10 +2,19 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
-
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const app = express();
 
 
+
+
+app.use(cookieParser());
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: "secret"
+}));
 
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
@@ -84,6 +93,10 @@ app.post("/loginHospital", function(req, res){
         console.log(err);
     })
 
+});
+
+app.get("/signUp",function(req,res){
+    res.render("signUp");
 });
 
 app.listen(3000, function() {
