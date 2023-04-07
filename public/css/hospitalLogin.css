@@ -1,0 +1,78 @@
+
+
+.loginBody
+{
+    background-color: white;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.formBody
+{
+    background-color: rgb(80,44,124);
+}
+
+.formHeader
+{
+    text-align: center;
+    font-weight: bold;
+    color: whitesmoke;
+    margin-bottom: 4rem;
+    font-size: 4rem;
+}
+
+.hospitalForm
+{
+    color: whitesmoke;
+}
+
+.subHeading
+{
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 3rem;
+    
+}
+
+.hospitalFormButton
+{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.formFooter
+{
+    background-color: #D3CCFF;
+    size: inherit;
+    color: black;
+}
+
+.loginRedirect
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    text-align: end;
+    
+}
+
+.brandName
+{
+    color: #4200FF;
+    padding-bottom: 1rem;
+    font-size: 5rem;
+    background-image: -webkit-linear-gradient(0deg, #4200FF 0%,#AD84E3 76%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+text-align: center;}
+
+
+    .welcome
+    {
+        color: #4200FF;
+        font-size: 3rem;
+        text-align: center;
+    }
