@@ -57,8 +57,11 @@
         </nav>
     
     </section>
+    <%if(foundHospitals!= null){%>
+      <%foundHospitals.forEach(function(hospital){%>
+        <%if(String(hospital.city)=== String(city)){%
 <section>
-
+  
   <div class="album py-5 bg-body-tertiary">
     <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1>
     <div class="container">
@@ -67,10 +70,10 @@
         <div class="col">
           <div class="card ">
             <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
-            <img class="hospitalPhoto" src="https://cdn.apollohospitals.com/dev-apollohospitals/2021/06/AH_logo_v-60c8405cbca3d.svg" class="card-img-top" alt="...">
+            <img class="hospitalPhoto" src="<%=hospital.HospitalLogo%>" class="card-img-top" alt="...">
             <div class="card text-center mt-3">
-                <h5 class="card-title">Apollo Hospital</h5>
-              <p class="card-text">Andheri, MH-567009</p>
+                <h5 class="card-title"><%=hospitalName%></h5>
+              <p class="card-text"><%=hospital.address%></p>
               <a href="#" class="btn btn-primary">View</a>
             </div>
           </div>
@@ -81,6 +84,40 @@
   </div>
 
 </section>
+  <%}%>
+  <%})%>
+  <%}%>
+  <%if(foundHospitals!= null){%>
+    <%foundHospitals.forEach(function(hospital){%>
+      <%if(String(hospital.state)=== String(state)){%
+<section>
+
+<div class="album py-5 bg-body-tertiary">
+  <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1>
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <div class="col">
+        <div class="card ">
+          <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
+          <img class="hospitalPhoto" src="<%=hospital.HospitalLogo%>" class="card-img-top" alt="...">
+          <div class="card text-center mt-3">
+              <h5 class="card-title"><%=hospitalName%></h5>
+            <p class="card-text"><%=hospital.address%></p>
+            <a href="" class="btn btn-primary">View</a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+</section>
+<%}%>
+<%})%>
+<%}%>
+
 
 
 

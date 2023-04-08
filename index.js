@@ -392,7 +392,20 @@ app.post("/organAdd", function(req, res) {
 
 
 app.get("/nearYou", function(req,res){
-    res.render("nearYou");
+
+    const city = req.session.donor.city;
+    const state = req.session.donor.tate;
+    Hospital.find({},function(req,res){
+        if(!err){
+            if(foundHospitals){
+                res.render("nearYou",{foundHospitals:foundHospitals, city:city, state:state});
+            }else{
+                res.render("nearYou",{foundHospitals:[],city:city, state:state});
+            }
+            
+        }
+    });
+    
 })
 
 app.get("/ngo", function(req,res){
@@ -475,9 +488,7 @@ app.post("/Reports",function(req,res){
     })
 })
 
-app.get("/nearYou", function(req,res){
-    res.render("nearYou");
-})
+
 
 
 
