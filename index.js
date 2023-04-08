@@ -6,7 +6,16 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const password = "shreyansh";
 
+//   bcrypt
+//   .compare(password, a)
+//   .then(res => {
+//     console.log("Matching") // return true
+//   })
+//   .catch(err => console.error(err.message))
 
 app.use(cookieParser());
 app.use(session({
@@ -115,6 +124,12 @@ app.get("/hospitalHome", function(req, res) {
 });
 
 app.post("/SignUpHospital", function(req, res) {
+    const saltRounds = 10;
+    var hashedPassword = "";
+    bcrypt.hash(req.body.password, saltRounds).then(hash => {
+        hashedPassword = hash;
+    }).catch(err => console.error(err.message));
+
     const newUser = new Hospital({
         hospitalName: req.body.hospName,
         state: req.body.stt,
@@ -122,7 +137,7 @@ app.post("/SignUpHospital", function(req, res) {
         offName: req.body.title+ req.body.fName,
         contactNo:req.body.contactNo,
         email:req.body.email,
-        password:req.body.password,
+        password:hashedPassword,
         town:req.body.town,
         Address:req.body.hospitalAddress,
         PinCode: req.body.pincode,
