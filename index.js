@@ -54,7 +54,7 @@ const HospitalSchema = new mongoose.Schema({
     contactNoOfficer:String
 })
 
-const DonorSchema = {
+const DonorSchema = new mongoose.Schema({
     donorName: String,
     state: String,
     city: String,
@@ -62,7 +62,7 @@ const DonorSchema = {
     email: String,
     password: String,
     age: Number
-}
+})
 
 const AlertsSchema = {
     donorOrgan: String,
@@ -112,6 +112,14 @@ const Alerts = mongoose.model("Alerts",AlertsSchema);
 const Organs = mongoose.model("Organs",OrgansSchema);
 const Info = mongoose.model("Ngo",ngoSchema);
 const Report = mongoose.model("Report",reportSchema);
+
+DonorSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+DonorSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
 
 app.get("/", function(req, res) {
     res.render("home");
@@ -238,10 +246,12 @@ app.post("/signUpDonor", function(req, res) {
         state:  req.body.stt,
         city:  req.body.city,
         contactNo: req.body.contact,
-        email: req.body.email,
         password: req.body.password,
+        email: req.body.email,
         age: req.body.age
     });
+
+    console.log(newUser.password);
 
     newUser.save().then(()=>{
         res.render("donorLogin");
