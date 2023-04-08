@@ -441,6 +441,11 @@ app.get("/donorForm",function(req,res){
 });
 
 app.get("/donorProfile",function(req,res){
+    const email = req.session.donor.email;
+    Donor.find({},function(err,foundDonor){
+        console.log(foundDonor);
+        res.render("donorProfile",{foundDonor:foundDonor, email:email});
+    })
     res.render("donorProfile");
 });
 
