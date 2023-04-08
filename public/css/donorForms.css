@@ -1,0 +1,35 @@
+.navbar
+{
+    font-family: 'Lato', sans-serif;
+}
+
+
+
+.donorNavbar
+{
+    background-color:#4F2B7C;
+    
+}
+
+
+.nav-item {
+    padding: 1.5rem 4.5rem;
+    font-size: x-large;
+}
+
+.nav-link
+{
+    text-decoration: none;
+    color: whitesmoke !important;
+}
+li.nav-item a:hover { color: grey !important; }
+
+td
+{
+    text-align: start !important;
+}
+
+table
+{
+    margin-left: 3rem;
+}
