@@ -36,13 +36,22 @@ const HospitalSchema = {
     password:String
 }
 
+const DonorSchema = {
+    donorName: String,
+    state: String,
+    city: String,
+    contactNo:String,
+    email: String,
+    password: String,
+    age: Number
+}
+
 const Hospital = mongoose.model("Hospital", HospitalSchema); 
 
 app.get("/", function(req, res) {
     res.render("home");
 });
 
-//    HOSPITAL
 app.get("/loginHospital", function(req, res) {
     if(req.session.hospital){
         res.render("hospitalHome");
@@ -53,6 +62,17 @@ app.get("/loginHospital", function(req, res) {
 
 app.get("/signUpHospital", function(req, res) {
     res.render("SignUpHospital");
+});
+
+app.get("/hospitalHome", function(req, res) {
+    if(req.session.hospital){
+        console.log(req.session.hospital);
+        res.render("hospitalHome");
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
 });
 
 app.post("/SignUpHospital", function(req, res) {
@@ -95,9 +115,71 @@ app.post("/loginHospital", function(req, res){
 
 });
 
+app.get("/logout",function(req,res){
+    req.session.destroy();
+    res.redirect("/")
+});
+
 app.get("/signUp",function(req,res){
     res.render("signUp");
 });
+
+app.get("/profileDonor",function(req,res){
+    res.render("profileDonor");
+});
+
+app.get("/loginDonor", function(req, res) {
+    if(req.session.hospital){
+        res.render("DonorHome");
+    }else{
+        res.render("loginHospital");
+    }
+});
+
+app.get("/signUpDonor", function(req, res) {
+    res.render("signUpDonor");
+});
+
+app.post("/signUpDonor", function(req, res) {
+    const newUser = new Donor({
+        donorName: req.body.title + req.body.donorName,
+        state:  req.body.stt,
+        city:  req.body.city,
+        contactNo: req.body.contact,
+        email: req.body.email,
+        password: req.body.password,
+        age: req.body.age
+    });
+
+    newUser.save().then(()=>{
+        res.render("loginHospital");
+        console.log("New Donor " + req.body.donorName + " account has been registered");
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
+
+app.post("/loginDonor", function(req, res){
+    const email = req.body.email;
+    const password = req.body.password;
+
+    Donor.findOne({email: email}).then((foundUser)=>{
+        if(foundUser.password === password){
+            // res.render("secrets");
+            req.session.donor= foundUser;
+            req.session.save();
+            console.log("User " + email + " has been successfully logged in");
+            res.redirect("/donorHome");
+        }
+        else{
+            console.log("Incorrect password or username");
+        }
+    }).catch((err)=>{
+        console.log(err);
+    })
+
+});
+
 
 app.listen(3000, function() {
     console.log("Server starting on port 3000");
