@@ -1,0 +1,20 @@
+.ngoBody
+{
+    background-color: #f6d8f6;
+    /* background-image: url("../images/Group\ 35.png"); */
+    height: fit-content;
+    width: fit-content;
+}
+
+.ngoImg
+{
+    width: -webkit-fill-available;
+}
+
+.ngoHeader
+{
+    text-align: center;
+    color: whitesmoke;
+    margin-bottom: 4rem;
+    font-size: 3rem;
+}
