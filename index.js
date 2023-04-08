@@ -6,7 +6,16 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const password = "shreyansh";
 
+//   bcrypt
+//   .compare(password, a)
+//   .then(res => {
+//     console.log("Matching") // return true
+//   })
+//   .catch(err => console.error(err.message))
 
 app.use(cookieParser());
 app.use(session({
@@ -26,7 +35,7 @@ mongoose.set("strictQuery",false);
 mongoose.connect("mongodb+srv://indros0603:chIDkDUjLGg7HLHY@cluster0.ntmh4fz.mongodb.net/OrganHubDB",{ useNewUrlParser: true });
 
 //Replace this with our schema
-const HospitalSchema = {
+const HospitalSchema = new mongoose.Schema({
     hospitalName: String,
     state: String,
     city: String,
@@ -43,7 +52,7 @@ const HospitalSchema = {
     AddressOfficer: String,
     emailOfficer:String,
     contactNoOfficer:String
-}
+})
 
 const DonorSchema = {
     donorName: String,
@@ -80,6 +89,14 @@ const ngoSchema = {
     ngoProposal: String
 }
 
+HospitalSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+};
+
+HospitalSchema.methods.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
 const Hospital = mongoose.model("Hospital", HospitalSchema); //add collection name here
 const Donor = mongoose.model("Donor",DonorSchema);
 const Alerts = mongoose.model("Alerts",AlertsSchema);
@@ -115,6 +132,7 @@ app.get("/hospitalHome", function(req, res) {
 });
 
 app.post("/SignUpHospital", function(req, res) {
+
     const newUser = new Hospital({
         hospitalName: req.body.hospName,
         state: req.body.stt,
@@ -122,7 +140,6 @@ app.post("/SignUpHospital", function(req, res) {
         offName: req.body.title+ req.body.fName,
         contactNo:req.body.contactNo,
         email:req.body.email,
-        password:req.body.password,
         town:req.body.town,
         Address:req.body.hospitalAddress,
         PinCode: req.body.pincode,
@@ -133,6 +150,9 @@ app.post("/SignUpHospital", function(req, res) {
         contactNoOfficer: req.body.nodalOfficerContactNo,
         emailOfficer: req.body.nodalOfficerEmail
     });
+    
+    newUser.password = newUser.generateHash(req.body.password);
+    console.log(newUser.password);
 
     newUser.save().then(()=>{
         res.render("loginHospital");
@@ -147,20 +167,15 @@ app.post("/loginHospital", function(req, res){
     const password = req.body.password;
 
     Hospital.findOne({email: email}).then((foundUser)=>{
-        if(foundUser.password === password){
-            // res.render("secrets");
+        if (!foundUser.validPassword(req.body.password)) {
+            console.log("Password did not match");
+        } else {
             req.session.hospital= foundUser;
             req.session.save();
             console.log("User " + email + " has been successfully logged in");
             res.redirect("/hospitalHome");
         }
-        else{
-            console.log("Incorrect password or username");
-        }
-    }).catch((err)=>{
-        console.log(err);
     })
-
 });
 
 app.get("/logout",function(req,res){
