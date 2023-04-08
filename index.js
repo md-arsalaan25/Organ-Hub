@@ -198,7 +198,41 @@ app.get("/address",function(req,res){
 
 app.get("/database",function(req,res){
     res.render("hospitalDatabase");
-})
+});
+
+app.get("/show",function(req,res){
+
+    const email= req.session.hospital.email;
+    Organs.find({},function(err,foundOrgans){
+        if(!err){
+            if(foundOrgans){
+                res.render("organDatabase",{foundOrgans:foundOrgans, email:email});
+            }else{
+                res.render("organDatabase",{foundOrgans:[],email:email});
+            }
+            
+        }
+    })
+    
+});
+
+app.post("/organAdd", function(req, res) {
+    const newOrgan = new Organs({
+        organ: req.body.organs,
+        date: req.body.date,
+        time: req.body.time,
+        bloodgroup: req.body.bloodGroup,
+        parameters: req.body.parameters,
+        email: req.session.hospital.email
+    })
+
+    newOrgan.save().then(()=>{
+        console.log("New organ " + req.body.organs + " has been added");
+        res.redirect("/hospitalHome");
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
 
 
 app.listen(3000, function() {
