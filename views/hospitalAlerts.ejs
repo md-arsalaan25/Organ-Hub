@@ -92,15 +92,15 @@
                 </div>
                 <div class="col-md-1">
                   <div class="card-body">
-                      <%if(String(alerts.donorUrgency) === "Immediate"){%>
-                        <div class="rectangle-red"></div>
-                      <%}%>
-                      <%if(String(alerts.donorUrgency) === "Moderate"){%>
-                        <div class="rectangle-yellow"></div>
-                      <%}%>
-                      <%if(String(alerts.donorUrgency) === "Not urgent"){%>
-                        <div class="rectangle-green"></div>
-                      <%}%>
+                    <%if(String(alerts.donorUrgency) === "Immediate"){%>
+                      <div class="rectangle"><span class="badge badge-pill bg-danger">High Priority</span></div>
+                    <%}%>
+                    <%if(String(alerts.donorUrgency) === "Moderate"){%>
+                      <div class="rectangle"><span class="badge badge-pill bg-warning">Medium Priority</span></div>
+                    <%}%>
+                    <%if(String(alerts.donorUrgency) === "Not urgent"){%>
+                      <div class="rectangle"><span class="badge badge-pill bg-success">Low Priority</span></div>
+                    <%}%>
                       
                       <!-- <div class="rectangle-red"></div>
                       <div class="rectangle-red"></div> -->

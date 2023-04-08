@@ -1,3 +1,4 @@
+//jshint esversion:6
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -5,8 +6,6 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const app = express();
-
-
 
 
 app.use(cookieParser());
@@ -26,6 +25,7 @@ app.use(bodyParser.urlencoded({
 mongoose.set("strictQuery",false);
 mongoose.connect("mongodb+srv://indros0603:chIDkDUjLGg7HLHY@cluster0.ntmh4fz.mongodb.net/OrganHubDB",{ useNewUrlParser: true });
 
+//Replace this with our schema
 const HospitalSchema = {
     hospitalName: String,
     state: String,
@@ -41,7 +41,8 @@ const HospitalSchema = {
     offName: String,
     Specialization: String,
     AddressOfficer: String,
-    emailOfficer:String
+    emailOfficer:String,
+    contactNoOfficer:String
 }
 
 const DonorSchema = {
@@ -54,13 +55,42 @@ const DonorSchema = {
     age: Number
 }
 
-const Hospital = mongoose.model("Hospital", HospitalSchema);
-const Donor = mongoose.model("Donor",DonorSchema); 
+const AlertsSchema = {
+    donorOrgan: String,
+    donorUrgency: String,
+    donorText: String,
+    email: String
+}
+
+const OrgansSchema = {
+    organ: String,
+    date: String,
+    time: String,
+    bloodgroup: String,
+    parameters: String,
+    email: String
+}
+
+
+const ngoSchema = {
+    name: String,
+    regNo: String,
+    ngoWebsite: String,
+    ngoEmail: String,
+    ngoProposal: String
+}
+
+const Hospital = mongoose.model("Hospital", HospitalSchema); //add collection name here
+const Donor = mongoose.model("Donor",DonorSchema);
+const Alerts = mongoose.model("Alerts",AlertsSchema);
+const Organs = mongoose.model("Organs",OrgansSchema);
+const Info = mongoose.model("Ngo",ngoSchema);
 
 app.get("/", function(req, res) {
     res.render("home");
 });
 
+//    HOSPITAL
 app.get("/loginHospital", function(req, res) {
     if(req.session.hospital){
         res.render("hospitalHome");
@@ -100,11 +130,12 @@ app.post("/SignUpHospital", function(req, res) {
         HospitalLogo: req.body.hospitalLogo,
         Specialization: req.body.specialization,
         AddressOfficer: req.body.nodalOfficerAddress,
+        contactNoOfficer: req.body.nodalOfficerContactNo,
         emailOfficer: req.body.nodalOfficerEmail
     });
 
     newUser.save().then(()=>{
-        res.render("secrets");
+        res.render("loginHospital");
         console.log("New Hospital " + req.body.hospName + " account has been registered");
     }).catch((err)=>{
         console.log(err);
@@ -142,20 +173,34 @@ app.get("/signUp",function(req,res){
 });
 
 
+//   DONOR
+
+
 app.get("/profileDonor",function(req,res){
     res.render("profileDonor");
 });
 
 app.get("/loginDonor", function(req, res) {
-    if(req.session.hospital){
-        res.render("DonorHome");
+    if(req.session.donor){
+        res.render("donorHome");
     }else{
-        res.render("donorLogin.ejs");
+        res.render("donorLogin");
     }
 });
 
 app.get("/signUpDonor", function(req, res) {
     res.render("signUpDonor");
+});
+
+app.get("/donorHome", function(req, res) {
+    if(req.session.donor){
+        console.log(req.session.hospital);
+        res.render("donorHome");
+    }
+    else{
+        res.redirect("/loginDonor");
+    }
+    
 });
 
 app.post("/signUpDonor", function(req, res) {
@@ -170,7 +215,7 @@ app.post("/signUpDonor", function(req, res) {
     });
 
     newUser.save().then(()=>{
-        res.render("loginHospital");
+        res.render("donorLogin");
         console.log("New Donor " + req.body.donorName + " account has been registered");
     }).catch((err)=>{
         console.log(err);
@@ -196,12 +241,9 @@ app.post("/loginDonor", function(req, res){
         console.log(err);
     })
 
-
 });
 
-app.get("/profileHospital",function(req,res){
-    res.render("profileHospital");
-})
+//Hospital page
 
 app.get("/request",function(req,res){
     res.render('hospitalRequest');
@@ -214,6 +256,29 @@ app.get("/address",function(req,res){
 
 app.get("/database",function(req,res){
     res.render("hospitalDatabase");
+})
+
+app.get("/alert",function(req,res){
+
+    const email = req.session.email;
+    Alerts.find({},function(err,foundAlerts){
+        if(!err){
+            if(foundAlerts){
+                Hospital.find({},function(err,foundHospitals){
+                    if(!err){
+                        res.render("hospitalAlerts",{foundAlerts: foundAlerts, foundHospitals: foundHospitals,email: email});
+                    }
+                })
+            }else{
+                res.render("hospitalAlerts",{foundAlerts:[],foundHospitals:[],email: email});
+            }
+        }
+    })
+    
+});
+
+app.get("/success",function(req,res){
+    res.render("hospitalSuccess");
 });
 
 app.get("/show",function(req,res){
@@ -230,6 +295,54 @@ app.get("/show",function(req,res){
         }
     })
     
+});
+
+// app.post("/show",function(req,res){
+//     // const query = {$text: {$search: req.body.search}};
+
+//     const projection={
+//         _id: 0,
+//         organ: 1,
+//         date: 0,
+//         time: 0,
+//         bloodgroup: 1,
+//         parameters: 0,
+//         email: 0
+
+//     };
+
+//     const cursor = Organs.findOne({$text: {$search: req.body.search}}, {projection: {_id: 0,
+//         organ: 1,
+//         date: 0,
+//         time: 0,
+//         bloodgroup: 1,
+//         parameters: 0,
+//         email: 0}});
+//     cursor.stream().on("data",doc => console.log(doc));
+
+// });
+
+
+
+app.get("/organAdd",function(req,res){
+
+    res.render("organAdd");
+});
+
+app.post("/hospitalRequest", function(req, res) {
+    const newAlert = new Alerts({
+        donorOrgan : req.body.organ,
+        donorUrgency : req.body.urgency,
+        donorText : req.body.text,
+        email: req.session.hospital.email
+    });
+
+    newAlert.save().then(()=>{
+        res.render("hospitalRequest");
+        console.log("New Alert " + req.body.organ + " has been made");
+    }).catch((err)=>{
+        console.log(err);
+    })
 });
 
 app.post("/organAdd", function(req, res) {
@@ -250,25 +363,98 @@ app.post("/organAdd", function(req, res) {
     })
 });
 
-app.post("/hospitalRequest", function(req, res) {
-    const newAlert = new Alerts({
-        donorOrgan : req.body.organ,
-        donorUrgency : req.body.urgency,
-        donorText : req.body.text,
-        email: req.session.hospital.email
-    });
 
-    newAlert.save().then(()=>{
-        res.render("hospitalRequest");
-        console.log("New Alert " + req.body.organ + " has been made");
+
+app.get("/ngo", function(req,res){
+    res.render("NGO");
+}) 
+
+app.post("/ngo", function(req,res){
+    const ngoInfo = new Info({
+        name: req.body.ngoName,
+        regNo: req.body.regNo,
+        ngoWebsite: req.body.ngoWebsite,
+        ngoEmail: req.body.email,
+        ngoProposal: req.body.ngoProposal
+    })
+
+    ngoInfo.save().then(()=>{
+        console.log("Ngo " + req.body.ngoName + " is saved");
+        res.render("NGO");
     }).catch((err)=>{
         console.log(err);
     })
+})
+
+app.get("/nearYou", function(req,res){
+    res.render("nearYou");
+})
+
+app.get("/ngo", function(req,res){
+    res.render("NGO");
+}) 
+
+app.post("/ngo", function(req,res){
+    const ngoInfo = new Info({
+        name: req.body.ngoName,
+        regNo: req.body.regNo,
+        ngoWebsite: req.body.ngoWebsite,
+        ngoEmail: req.body.email,
+        ngoProposal: req.body.ngoProposal
+    })
+
+    ngoInfo.save().then(()=>{
+        console.log("Ngo " + req.body.ngoName + " is saved");
+        res.render("NGO");
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+app.get("/request",function(req,res){
+    res.render('hospitalRequest');
+
 });
+
+app.get("/address",function(req,res){
+    res.render("hospitalAddress");
+});
+
+app.get("/database",function(req,res){
+    res.render("hospitalDatabase");
+});
+
+app.get("/profileHospital",function(req,res){
+
+    const email = req.session.hospital.email;
+    Hospital.find({},function(err,foundHospital){
+        console.log(foundHospital);
+        res.render("profileHospital",{foundHospital:foundHospital,email:email});
+    });
+    
+});
+
+// Donor nav bar
+
+app.get("/donorForm",function(req,res){
+    res.render("donorForms");
+});
+
+app.get("/donorProfile",function(req,res){
+    res.render("donorProfile");
+});
+
+app.get("/donorReports",function(req,res){
+    res.render("donorReports");
+
+});
+
+app.get("/nearYou", function(req,res){
+    res.render("nearYou");
+})
 
 
 
 app.listen(3000, function() {
     console.log("Server starting on port 3000");
 });
-

@@ -101,7 +101,13 @@ background: linear-gradient(89.98deg, #D3CCFF 0.44%, rgba(211, 204, 255, 0.84895
     margin-top: 6rem;
     margin-left: 1rem;
   }
-
+  .rectangle {
+    height: 50px;
+    width: 100px;
+    /* background-color: greenyellow; */
+    margin-top: 6rem;
+    margin-left: 1rem;
+  }
   .optionMenu
   {
     padding: 7rem;

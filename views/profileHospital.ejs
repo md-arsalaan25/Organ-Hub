@@ -15,174 +15,185 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container emp-profile">
-        <form method="post">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-img">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c5/Apollo_Hospitals_Logo.svg/800px-Apollo_Hospitals_Logo.svg.png" alt=""/>
-                        <div class="file btn btn-lg btn-primary">
-                            Change Photo
-                            <input type="file" name="file"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 hospitalName">
-                    <div class="profile-head">
-                                <h5>
-                                    Apollo Hospital
-                                </h5>
-                                <h6>
-                                    LM Nagar, Mumbai, MH-45003
-                                </h6>
-                                <p class="proile-rating">REGD : <span>ABG523MH</span></p>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a onclick="myFunction2()" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Contact Details</a>
-                            </li>
-                            <li class="nav-item">
-                                <a onclick="myFunction()"  class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Nodal Officer Details</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="profile-work">
-                        <p>LINKS</p>
-                        <a href="">Hospital Website</a><br/>
-                        <a href="">National Health Portal</a><br/>
-                        <!-- <a href=""></a> -->
-                        <p>SPECIALITIES</p>
-                        <a href="">Emergency and Trauma</a><br/>
-                        <a href="">Dialysis Unit</a><br/>
-                        <a href="">Laparoscopic Surgery</a><br/>
-                        <a href="">Kidney Transplant</a><br/>
-                        <a href="">Vascular Surgery</a><br/>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="tab-content profile-tab" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Hospital Id</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>7433081</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Address</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Plot # 13, Off Uran Road, Parsik Hill Rd, Sector 23</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>State</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Maharashtra</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>District</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Navi Mumbai</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Town/Village</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>CBD Belapur</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Pin Code</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>400614</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>mumbai.west@apollohospitals.com</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Phone</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>672 456 7890</p>
-                                        </div>
-                                    </div>
+    <%if(foundHospital!=null){%>
+        <%foundHospital.forEach(function(hospital){%>
+            <%console.log(hospital.email)%>
+            <%console.log(email)%>
+            <%if(String(hospital.email)=== String(email)){%>
                 
+            
+            <div class="container emp-profile">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="profile-img">
+                                <img src= "<%=hospital.HospitalLogo%>" alt=""/>
+                                <div class="file btn btn-lg btn-primary">
+                                    Change Photo
+                                    <input type="file" name="file"/>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Name</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Dr. Randeep Singh</p>
-                                        </div>
+                        <div class="col-md-6 hospitalName">
+                            <div class="profile-head">
+                                        <h5>
+                                            <%=hospital.hospitalName%>
+                                        </h5>
+                                        <h6>
+                                            LM Nagar, Mumbai, MH-45003
+                                        </h6>
+                                        <p class="proile-rating">REGD : <span>ABG523MH</span></p>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a onclick="myFunction2()" class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Contact Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a onclick="myFunction()"  class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Nodal Officer Details</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="profile-work">
+                                <p>LINKS</p>
+                                <a href="">Hospital Website</a><br/>
+                                <a href="">National Health Portal</a><br/>
+                                <!-- <a href=""></a> -->
+                                <p>SPECIALITIES</p>
+                                <a href="">Emergency and Trauma</a><br/>
+                                <a href="">Dialysis Unit</a><br/>
+                                <a href="">Laparoscopic Surgery</a><br/>
+                                <a href="">Kidney Transplant</a><br/>
+                                <a href="">Vascular Surgery</a><br/>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="tab-content profile-tab" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Hospital Id</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>7433081</p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Address</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.Address%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>State</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.state%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>City</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.city%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Town/Village</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.town%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Pin Code</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.PinCode%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.email%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Phone</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.contactNo%></p>
+                                                </div>
+                                            </div>
+                        
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.offName%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Specialisation</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.Specialization%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Address</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.AddressOfficer%> </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Phone</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.contactNoOfficer%></p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>Email</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p><%=hospital.contactNoOfficer%></p>
+                                                </div>
+                                            </div>
+        
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Specialisation</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>D.M. (Pulmonary Medicine), MD(Medicine)</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Address</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Room-C-132 , Apollo Hospitals, Plot # 13, Off Uran Road, Parsik Hill Rd, Sector 23, Navi Mumbai, Maharashtra-400614 </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Phone</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>763 664 2345</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>dr.rsingh1996@outlook.com</p>
-                                        </div>
-                                    </div>
-
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>           
             </div>
-        </form>           
-    </div>
+            <%}%>
+        <%})%>
+    <%}%>
+    
 
 
 </body>
