@@ -232,11 +232,11 @@ app.post("/signUpDonor", function(req, res) {
         state:  req.body.stt,
         city:  req.body.city,
         contactNo: req.body.contact,
+        password: req.body.password,
         email: req.body.email,
         age: req.body.age
     });
 
-    newUser.password = newUser.generateHash(req.body.password);
     console.log(newUser.password);
 
     newUser.save().then(()=>{
@@ -252,15 +252,20 @@ app.post("/loginDonor", function(req, res){
     const password = req.body.password;
 
     Donor.findOne({email: email}).then((foundUser)=>{
-        if (!foundUser.validPassword(req.body.password)) {
-            console.log("Password did not match");
-        } else {
+        if(foundUser.password === password){
+            // res.render("secrets");
             req.session.donor= foundUser;
             req.session.save();
             console.log("User " + email + " has been successfully logged in");
             res.redirect("/donorHome");
         }
+        else{
+            console.log("Incorrect password or username");
+        }
+    }).catch((err)=>{
+        console.log(err);
     })
+
 });
 
 //Hospital page
@@ -429,10 +434,6 @@ app.post("/ngo", function(req,res){
     }).catch((err)=>{
         console.log(err);
     })
-})
-
-app.get("/awareness",function(req,res){
-    res.render("organDonationAwareness");
 })
 
 app.get("/request",function(req,res){
