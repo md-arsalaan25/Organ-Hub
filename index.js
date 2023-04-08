@@ -128,6 +128,7 @@ app.post("/SignUpHospital", function(req, res) {
     var hashedPassword = "";
     bcrypt.hash(req.body.password, saltRounds).then(hash => {
         hashedPassword = hash;
+        console.log(hashedPassword);
     }).catch(err => console.error(err.message));
 
     const newUser = new Hospital({
@@ -191,9 +192,7 @@ app.get("/signUp",function(req,res){
 //   DONOR
 
 
-app.get("/profileDonor",function(req,res){
-    res.render("profileDonor");
-});
+
 
 app.get("/loginDonor", function(req, res) {
     if(req.session.donor){
@@ -460,8 +459,8 @@ app.get("/donorProfile",function(req,res){
     Donor.find({},function(err,foundDonor){
         console.log(foundDonor);
         res.render("donorProfile",{foundDonor:foundDonor, email:email});
-    })
-    res.render("donorProfile");
+    });
+    
 });
 
 app.get("/donorReports",function(req,res){
