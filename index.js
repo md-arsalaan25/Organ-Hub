@@ -46,7 +46,8 @@ const DonorSchema = {
     age: Number
 }
 
-const Hospital = mongoose.model("Hospital", HospitalSchema); 
+const Hospital = mongoose.model("Hospital", HospitalSchema);
+const Donor = mongoose.model("Donor",DonorSchema); 
 
 app.get("/", function(req, res) {
     res.render("home");
@@ -124,6 +125,7 @@ app.get("/signUp",function(req,res){
     res.render("signUp");
 });
 
+
 app.get("/profileDonor",function(req,res){
     res.render("profileDonor");
 });
@@ -132,7 +134,7 @@ app.get("/loginDonor", function(req, res) {
     if(req.session.hospital){
         res.render("DonorHome");
     }else{
-        res.render("loginHospital");
+        res.render("donorLogin.ejs");
     }
 });
 
@@ -178,7 +180,25 @@ app.post("/loginDonor", function(req, res){
         console.log(err);
     })
 
+
 });
+
+app.get("/profileHospital",function(req,res){
+    res.render("profileHospital");
+})
+
+app.get("/request",function(req,res){
+    res.render('hospitalRequest');
+
+});
+
+app.get("/address",function(req,res){
+    res.render("hospitalAddress");
+});
+
+app.get("/database",function(req,res){
+    res.render("hospitalDatabase");
+})
 
 
 app.listen(3000, function() {

@@ -1,0 +1,137 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+
+/*.navbar-icon {
+    text-align: center;
+    padding: 10%;
+}
+
+
+.navigation-bar ul {
+    list-style: none;
+    padding-left: 19px;
+    font-family: 'Lato', sans-serif;
+}
+
+.nav-item {
+    font-weight: 600;
+    font-size: 31px;
+    line-height: 51.6px;
+}
+
+
+
+.nav-link {
+    padding: 13px 0;
+    margin: 3% 0;
+}
+
+ul hr {
+    color: white;
+    margin: 0 0 20px;
+}
+
+.log-out-status {
+    color: #CC8F8F;
+}
+
+.background-div {
+    background: url("public/images/Group 34.png");
+}
+
+.background-div p {
+    display: none;
+} */
+
+
+.navigation-bar {
+    background: #4F2C7C;
+    padding-left: 20px;
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    padding: 18px 0;
+}
+
+.nav-stats-link {
+    color: white;
+}
+
+.nav-stats-log {
+    color: #CC8F8F;
+}
+
+.nav-icon-div {
+    text-align: center;
+}
+
+.nav-icon-div i {
+    position: relative;
+    top: 8px;
+}
+
+.flex-column hr {
+    color: #E1DBE7;
+}
+
+.background-img {
+    padding: 0;
+    margin: 0;
+}
+
+.background-img img {
+    /* content: ""; */
+    /* background-image: url("../images/Group 34.png");
+    background-repeat: no-repeat;
+    background-size: cover; */
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* SEARCH BOX  */
+
+.button-div {
+    text-align: center;
+    padding: 3% 37%;
+}
+
+.button-div input {
+    border: 3px solid #4F2B7C;
+    border-radius: 63px;
+}
+
+
+
+::-webkit-input-placeholder {
+    text-align: center;
+}
+
+/* ACHIEVEMENTS */
+
+.achv-row {
+    padding: 3% 7%;
+    background: radial-gradient(131.02% 371.3% at 0% 55.92%, rgba(255, 255, 255, 0) 23.96%, #967BCF 88.54%);
+    filter: drop-shadow(0px 9px 8px rgba(0, 0, 0, 0.2));
+}
+
+.image {
+    text-align: center;
+}
+
+
+.image img {
+    width: 595px;
+    height: 343px;
+    border-radius: 75px;
+}
