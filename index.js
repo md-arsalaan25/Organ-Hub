@@ -30,10 +30,18 @@ const HospitalSchema = {
     hospitalName: String,
     state: String,
     city: String,
-    offName: String,
     contactNo:String,
     email:String,
-    password:String
+    password:String,
+    town:String,
+    Address:String,
+    PinCode: String,
+    Website: String,
+    HospitalLogo: String,
+    offName: String,
+    Specialization: String,
+    AddressOfficer: String,
+    emailOfficer:String
 }
 
 const DonorSchema = {
