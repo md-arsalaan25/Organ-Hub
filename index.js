@@ -92,7 +92,15 @@ app.post("/SignUpHospital", function(req, res) {
         offName: req.body.title+ req.body.fName,
         contactNo:req.body.contactNo,
         email:req.body.email,
-        password:req.body.password
+        password:req.body.password,
+        town:req.body.town,
+        Address:req.body.hospitalAddress,
+        PinCode: req.body.pincode,
+        Website:  req.body.hospitalWebsite,
+        HospitalLogo: req.body.hospitalLogo,
+        Specialization: req.body.specialization,
+        AddressOfficer: req.body.nodalOfficerAddress,
+        emailOfficer: req.body.nodalOfficerEmail
     });
 
     newUser.save().then(()=>{
@@ -241,6 +249,23 @@ app.post("/organAdd", function(req, res) {
         console.log(err);
     })
 });
+
+app.post("/hospitalRequest", function(req, res) {
+    const newAlert = new Alerts({
+        donorOrgan : req.body.organ,
+        donorUrgency : req.body.urgency,
+        donorText : req.body.text,
+        email: req.session.hospital.email
+    });
+
+    newAlert.save().then(()=>{
+        res.render("hospitalRequest");
+        console.log("New Alert " + req.body.organ + " has been made");
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
+
 
 
 app.listen(3000, function() {
