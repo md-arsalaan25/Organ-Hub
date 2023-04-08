@@ -1,0 +1,43 @@
+.loginBody
+{
+    background-color: #EFE5FC;
+    font-family: 'Lato', sans-serif;
+}
+
+.organOptions
+{
+    width: 50%;
+}
+
+.formBody
+{
+    background-color: #502c7c;
+}
+
+.addBody
+{
+    background-image: url("../images/addBG.jpg");
+}
+.formHeader
+{
+    text-align: center;
+    color: whitesmoke;
+    margin-bottom: 4rem;
+    font-size: 4rem;
+}
+
+.formFields
+{
+    display: flex !important;
+    justify-content: space-around;
+
+}
+
+.addButton
+{
+    width:6rem;
+}
+/* .addSideIMG
+{
+    background-image: url("../images/addBG.jpg");
+} */
