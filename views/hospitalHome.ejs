@@ -29,42 +29,6 @@
 
     <section id="header">
 
-        <!-- <div class="row">
-
-            <div class="navigation-bar col-lg-2 col-md-1">
-                <ul>
-                    <li class="navbar-icon"><i class="fa-solid fa-user fa-2xl" style="color: #ffffff;"></i></li>
-                    <hr>
-                
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Request</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Database</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Address</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Alerts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link navigation-text">Success</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link log-out-status">Log out</a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="background-div col-lg-10 col-md-11">
-                <p>text field</p>
-            </div>
-
-        </div> -->
 
         <div class="row">
 
@@ -79,30 +43,49 @@
                     <hr>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href="/hospitalHome">Home</a>
+                        <a class="nav-link nav-stats-link" href="/hospitalHome">
+                            Home
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href="/request">Request</a>
+                        <a class="nav-link nav-stats-link" href="/request">
+                            Request
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href = "/database">Database</a>
+                        <a class="nav-link nav-stats-link" href="/database">
+                            Database
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href = "/address">Address</a>
+                        <a class="nav-link nav-stats-link" href="/address">
+                            Address
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href= "/alert">Alerts</a>
+                    <li class="nav-item alerts-a" current-count="">
+                        <a class="nav-link nav-stats-link" href="/alert">
+                            <span>Alerts</span>
+                            <span
+                                class="position-absolute top-20.5 start-19 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-link" href="/success">Success</a>
+                        <a class="nav-link nav-stats-link" href="/success">
+                            Success
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link nav-stats-log" href="/logout">Log out</a>
+                        <a class="nav-link nav-stats-log" href="/logout">
+                            Log out
+
+                        </a>
                     </li>
 
                 </ul>
@@ -120,14 +103,24 @@
 
     <!-- SEARCH-BOX -->
 
-    <section id="search-box">
+    <!-- <section id="search-box"> -->
 
-        <div class="mb-3 button-div">
 
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Search for hospitals"><i class="fa-solid fa-microphone fa-lg voice-icon" style="color: #4f2b7c;"></i>
-        </div>
+    <!-- <section class="search">
+            <form action="" method="get">
+            <div class="input-group organSearch">
+              <div class="form-outline">
+                <input id="search-input" type="search" placeholder="Search for hospitals" id="form1" class="form-control" />
+              
+              </div>
+              <button id="search-button" type="button" class="btn btn-primary ">
+                <i class="fa-solid fa-microphone" style="color: #ffffff;"></i>
+              </button>
+            </div>
+          </form>
+          </section>
 
-    </section>
+    </section> -->
 
 
 
@@ -137,18 +130,20 @@
 
         <div class="row achv-row">
 
-            <div class="image col-lg-6 col-md-6 col-sm-12">
+            <div class="image col-lg-6 col-md-12 col-sm-12">
                 <h1>Your Achievements</h1>
                 <img src="images/trophy.gif" alt="">
             </div>
 
-            <div class="text col-lg-6 col-md-6 col-sm-12">
+            <div class="text col-lg-6 col-md-12 col-sm-12">
 
-                <div class="internal-text-div">
+                <div class="internal-text-div mt-5 hospitalCaptions">
                     <ul>
-                        <li class="achivement-item"><em>There are 12 hospitals in your locality with organs and tissues......</em></li>
-                        <li class="achivement-item"><em>Total 4 organ transfers were completed this month in your locality.....</em></li>
-                        <li class="achivement-item"><em>5+ donors registered for your hospital yesterday....</em></li>
+                        <li class="achivement-item"><em>There are 12 hospitals in your locality with organs and
+                                tissues.</em></li>
+                        <li class="achivement-item"><em>Total 4 organ transfers were completed this month in your
+                                locality.</em></li>
+                        <li class="achivement-item"><em>5+ donors registered for your hospital yesterday.</em></li>
                     </ul>
                 </div>
 
