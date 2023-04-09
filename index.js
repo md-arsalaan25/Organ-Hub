@@ -89,6 +89,15 @@ const ngoSchema = {
     ngoProposal: String
 }
 
+const reportSchema = {
+    email: String,
+    reportName:String,
+    date: String,
+    time: String,
+    report: String
+
+}
+
 HospitalSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
@@ -102,6 +111,7 @@ const Donor = mongoose.model("Donor",DonorSchema);
 const Alerts = mongoose.model("Alerts",AlertsSchema);
 const Organs = mongoose.model("Organs",OrgansSchema);
 const Info = mongoose.model("Ngo",ngoSchema);
+const Report = mongoose.model("Report",reportSchema);
 
 DonorSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -140,6 +150,12 @@ app.get("/hospitalHome", function(req, res) {
 });
 
 app.post("/SignUpHospital", function(req, res) {
+    const saltRounds = 10;
+    var hashedPassword = "";
+    bcrypt.hash(req.body.password, saltRounds).then(hash => {
+        hashedPassword = hash;
+        console.log(hashedPassword);
+    }).catch(err => console.error(err.message));
 
     const newUser = new Hospital({
         hospitalName: req.body.hospName,
@@ -199,9 +215,7 @@ app.get("/signUp",function(req,res){
 //   DONOR
 
 
-app.get("/profileDonor",function(req,res){
-    res.render("profileDonor");
-});
+
 
 app.get("/loginDonor", function(req, res) {
     if(req.session.donor){
@@ -279,9 +293,7 @@ app.get("/address",function(req,res){
     res.render("hospitalAddress");
 });
 
-app.get("/database",function(req,res){
-    res.render("hospitalDatabase");
-})
+
 
 app.get("/alert",function(req,res){
 
@@ -389,30 +401,21 @@ app.post("/organAdd", function(req, res) {
 });
 
 
-
-app.get("/ngo", function(req,res){
-    res.render("NGO");
-}) 
-
-app.post("/ngo", function(req,res){
-    const ngoInfo = new Info({
-        name: req.body.ngoName,
-        regNo: req.body.regNo,
-        ngoWebsite: req.body.ngoWebsite,
-        ngoEmail: req.body.email,
-        ngoProposal: req.body.ngoProposal
-    })
-
-    ngoInfo.save().then(()=>{
-        console.log("Ngo " + req.body.ngoName + " is saved");
-        res.render("NGO");
-    }).catch((err)=>{
-        console.log(err);
-    })
-})
-
 app.get("/nearYou", function(req,res){
-    res.render("nearYou");
+
+    const city = req.session.donor.city;
+    const state = req.session.donor.tate;
+    Hospital.find({},function(req,res){
+        if(!err){
+            if(foundHospitals){
+                res.render("nearYou",{foundHospitals:foundHospitals, city:city, state:state});
+            }else{
+                res.render("nearYou",{foundHospitals:[],city:city, state:state});
+            }
+            
+        }
+    });
+    
 })
 
 app.get("/ngo", function(req,res){
@@ -436,14 +439,9 @@ app.post("/ngo", function(req,res){
     })
 })
 
-app.get("/request",function(req,res){
-    res.render('hospitalRequest');
 
-});
 
-app.get("/address",function(req,res){
-    res.render("hospitalAddress");
-});
+
 
 app.get("/database",function(req,res){
     res.render("hospitalDatabase");
@@ -466,17 +464,41 @@ app.get("/donorForm",function(req,res){
 });
 
 app.get("/donorProfile",function(req,res){
-    res.render("donorProfile");
+    const email = req.session.donor.email;
+    Donor.find({},function(err,foundDonor){
+        console.log(foundDonor);
+        res.render("donorProfile",{foundDonor:foundDonor, email:email});
+    });
+    
 });
 
 app.get("/donorReports",function(req,res){
-    res.render("donorReports");
+    const email = req.session.donor.email;
+    Report.find({},function(err,foundReport){
+        console.log(foundReport);
+        res.render("donorReports",{foundReport:foundReport, email:email});
+    });
 
 });
 
-app.get("/nearYou", function(req,res){
-    res.render("nearYou");
+app.post("/Reports",function(req,res){
+    const newReport = new Report({
+        email: req.session.donor.email,
+        reportName:req.body.reportName,
+        date: req.body.date,
+        time: req.body.time,
+        report: req.body.reportLink
+    })
+
+    newReport.save().then(()=>{
+        console.log("report " + req.body.reportName + " is saved");
+        res.redirect("/donorReports")
+    }).catch((err)=>{
+        console.log(err);
+    })
 })
+
+
 
 
 
