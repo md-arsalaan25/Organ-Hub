@@ -27,7 +27,7 @@
                     <ul class="navbar-nav">
     
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
+                            <a class="nav-link" aria-current="page" href="/donorHome">Home</a>
                         </li>
     
                         <li class="nav-item">
@@ -48,7 +48,7 @@
     
                         <!-- <li class="nav-item"><a class="nav-link" href="#">Sign up</a></li> -->
     
-                        <li class="nav-item"><a class="nav-link" href="#"><i class="fa-solid fa-user fa-xl" style="color: #f2f2f2;"></i> </a></li>
+                        <li class="nav-item"><a class="nav-link" href="/donorProfile"><i class="fa-solid fa-user fa-xl" style="color: #f2f2f2;"></i> </a></li>
                            
                             
                     </ul>
@@ -59,7 +59,7 @@
     </section>
     <%if(foundHospitals!= null){%>
       <%foundHospitals.forEach(function(hospital){%>
-        <%if(String(hospital.city)=== String(city)){%
+        <%if(String(hospital.city)=== String(city)){%>
 <section>
   
   <div class="album py-5 bg-body-tertiary">
@@ -72,7 +72,7 @@
             <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
             <img class="hospitalPhoto" src="<%=hospital.HospitalLogo%>" class="card-img-top" alt="...">
             <div class="card text-center mt-3">
-                <h5 class="card-title"><%=hospitalName%></h5>
+                <h5 class="card-title"><%=hospital.hospitalName%></h5>
               <p class="card-text"><%=hospital.address%></p>
               <a href="#" class="btn btn-primary">View</a>
             </div>
@@ -89,7 +89,7 @@
   <%}%>
   <%if(foundHospitals!= null){%>
     <%foundHospitals.forEach(function(hospital){%>
-      <%if(String(hospital.state)=== String(state)){%
+      <%if(String(hospital.state)=== String(state)){%>
 <section>
 
 <div class="album py-5 bg-body-tertiary">
@@ -100,9 +100,9 @@
       <div class="col">
         <div class="card ">
           <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
-          <img class="hospitalPhoto" src="<%=hospital.HospitalLogo%>" class="card-img-top" alt="...">
+          <img class="hospitalPhoto" src="images/plus.png" class="card-img-top" alt="images/plus.png">
           <div class="card text-center mt-3">
-              <h5 class="card-title"><%=hospitalName%></h5>
+              <h5 class="card-title"><%=hospital.hospitalName%></h5>
             <p class="card-text"><%=hospital.address%></p>
             <a href="" class="btn btn-primary">View</a>
           </div>

@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const password = "shreyansh";
 
+
 //   bcrypt
 //   .compare(password, a)
 //   .then(res => {
@@ -54,7 +55,7 @@ const HospitalSchema = new mongoose.Schema({
     contactNoOfficer:String
 })
 
-const DonorSchema = new mongoose.Schema({
+const DonorSchema = {
     donorName: String,
     state: String,
     city: String,
@@ -62,7 +63,7 @@ const DonorSchema = new mongoose.Schema({
     email: String,
     password: String,
     age: Number
-})
+}
 
 const AlertsSchema = {
     donorOrgan: String,
@@ -112,14 +113,6 @@ const Alerts = mongoose.model("Alerts",AlertsSchema);
 const Organs = mongoose.model("Organs",OrgansSchema);
 const Info = mongoose.model("Ngo",ngoSchema);
 const Report = mongoose.model("Report",reportSchema);
-
-DonorSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-};
-
-DonorSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
-};
 
 app.get("/", function(req, res) {
     res.render("home");
@@ -186,19 +179,32 @@ app.post("/SignUpHospital", function(req, res) {
     })
 });
 
+
+
 app.post("/loginHospital", function(req, res){
     const email = req.body.email;
     const password = req.body.password;
 
-    Hospital.findOne({email: email}).then((foundUser)=>{
-        if (!foundUser.validPassword(req.body.password)) {
-            console.log("Password did not match");
-        } else {
-            req.session.hospital= foundUser;
-            req.session.save();
-            console.log("User " + email + " has been successfully logged in");
-            res.redirect("/hospitalHome");
+    Hospital.findOne({email: email},function(err,foundUser){
+        if(err){
+            console.log(err);
         }
+        else{
+            if(foundUser){
+                if(!foundUser.validPassword(req.body.password)){
+                    res.render("loginHospitalerr");
+                }else {
+                    req.session.hospital= foundUser;
+                    req.session.save();
+                    console.log("User " + email + " has been successfully logged in");
+                    res.redirect("/hospitalHome");
+                }
+            }else{
+                
+                res.render("loginHospitalerr");
+            }
+        }
+        
     })
 });
 
@@ -246,12 +252,10 @@ app.post("/signUpDonor", function(req, res) {
         state:  req.body.stt,
         city:  req.body.city,
         contactNo: req.body.contact,
-        password: req.body.password,
         email: req.body.email,
+        password: req.body.password,
         age: req.body.age
     });
-
-    console.log(newUser.password);
 
     newUser.save().then(()=>{
         res.render("donorLogin");
@@ -265,19 +269,26 @@ app.post("/loginDonor", function(req, res){
     const email = req.body.email;
     const password = req.body.password;
 
-    Donor.findOne({email: email}).then((foundUser)=>{
-        if(foundUser.password === password){
-            // res.render("secrets");
-            req.session.donor= foundUser;
-            req.session.save();
-            console.log("User " + email + " has been successfully logged in");
-            res.redirect("/donorHome");
+    Donor.findOne({email: email},function(err,foundUser){
+        if(err){
+            console.log(err);
         }
         else{
-            console.log("Incorrect password or username");
+            if(foundUser){
+                if(!(String(foundUser.password) === String(password))){
+                    res.render("donorLoginerr");
+                }else {
+                    req.session.donor= foundUser;
+                    req.session.save();
+                    console.log("User " + email + " has been successfully logged in");
+                    res.redirect("/donorHome");
+                }
+            }else{
+                
+                res.render("donorLoginerr");
+            }
         }
-    }).catch((err)=>{
-        console.log(err);
+        
     })
 
 });
@@ -285,12 +296,24 @@ app.post("/loginDonor", function(req, res){
 //Hospital page
 
 app.get("/request",function(req,res){
-    res.render('hospitalRequest');
+    if(req.session.hospital){
+        res.render('hospitalRequest');
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
 
 });
 
 app.get("/address",function(req,res){
-    res.render("hospitalAddress");
+    if(req.session.hospital){
+        res.render("hospitalAddress");
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
 });
 
 
@@ -404,8 +427,8 @@ app.post("/organAdd", function(req, res) {
 app.get("/nearYou", function(req,res){
 
     const city = req.session.donor.city;
-    const state = req.session.donor.tate;
-    Hospital.find({},function(req,res){
+    const state = req.session.donor.state;
+    Hospital.find({},function(err,foundHospitals){
         if(!err){
             if(foundHospitals){
                 res.render("nearYou",{foundHospitals:foundHospitals, city:city, state:state});
@@ -414,6 +437,7 @@ app.get("/nearYou", function(req,res){
             }
             
         }
+        
     });
     
 })
@@ -439,9 +463,7 @@ app.post("/ngo", function(req,res){
     })
 })
 
-app.get("/awareness",function(req,res){
-    res.render("organDonationAwareness");
-})
+
 
 
 
@@ -498,6 +520,10 @@ app.post("/Reports",function(req,res){
     }).catch((err)=>{
         console.log(err);
     })
+});
+
+app.get("/awareness",function(req,res){
+    res.render("organDonationAwareness");
 })
 
 

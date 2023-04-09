@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Indranil0603/Organ-Hub#readme",
   "dependencies": {
+    "alert": "^5.1.4",
     "bcrypt": "^5.1.0",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
@@ -26,6 +27,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^6.8.3",
     "nodemon": "^2.0.22",
-    "parser": "^0.1.4"
+    "parser": "^0.1.4",
+    "popups": "^1.1.3"
   }
 }
