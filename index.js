@@ -439,7 +439,9 @@ app.post("/ngo", function(req,res){
     })
 })
 
-
+app.get("/awareness",function(req,res){
+    res.render("organDonationAwareness");
+})
 
 
 
