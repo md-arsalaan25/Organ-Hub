@@ -319,43 +319,68 @@ app.get("/address",function(req,res){
 
 
 app.get("/alert",function(req,res){
-
-    const email = req.session.email;
-    Alerts.find({},function(err,foundAlerts){
-        if(!err){
-            if(foundAlerts){
-                Hospital.find({},function(err,foundHospitals){
-                    if(!err){
-                        res.render("hospitalAlerts",{foundAlerts: foundAlerts, foundHospitals: foundHospitals,email: email});
-                    }
-                })
-            }else{
-                res.render("hospitalAlerts",{foundAlerts:[],foundHospitals:[],email: email});
+    if(req.session.hospital){
+        const email = req.session.email;
+        Alerts.find({},function(err,foundAlerts){
+            if(!err){
+                if(foundAlerts){
+                    Hospital.find({},function(err,foundHospitals){
+                        if(!err){
+                            res.render("hospitalAlerts",{foundAlerts: foundAlerts, foundHospitals: foundHospitals,email: email});
+                        }
+                    })
+                }else{
+                    res.render("hospitalAlerts",{foundAlerts:[],foundHospitals:[],email: email});
+                }
             }
-        }
-    })
+        });
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
     
 });
 
-app.get("/success",function(req,res){
-    res.render("hospitalSuccess");
-});
+
 
 app.get("/show",function(req,res){
-
-    const email= req.session.hospital.email;
-    Organs.find({},function(err,foundOrgans){
-        if(!err){
-            if(foundOrgans){
-                res.render("organDatabase",{foundOrgans:foundOrgans, email:email});
-            }else{
-                res.render("organDatabase",{foundOrgans:[],email:email});
+    if(req.session.hospital){
+        const email= req.session.hospital.email;
+        Organs.find({},function(err,foundOrgans){
+            if(!err){
+                if(foundOrgans){
+                    res.render("organDatabase",{foundOrgans:foundOrgans, email:email});
+                }else{
+                    res.render("organDatabase",{foundOrgans:[],email:email});
+                }
+                
             }
-            
-        }
-    })
+        });
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+
+    
     
 });
+
+app.post("/show",function(req,res){
+
+    const Id = req.body.del;
+    Organs.findByIdAndRemove(Id,function(err){
+        if(err)
+        {
+            console.log(err);
+        }
+        else
+        {
+            console.log("Deleted one item successfully");
+            res.redirect("/show");
+        }
+    });
+})
 
 // app.post("/show",function(req,res){
 //     // const query = {$text: {$search: req.body.search}};
@@ -385,8 +410,13 @@ app.get("/show",function(req,res){
 
 
 app.get("/organAdd",function(req,res){
-
-    res.render("organAdd");
+    if(req.session.hospital){
+        res.render("organAdd");
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
 });
 
 app.post("/hospitalRequest", function(req, res) {
@@ -425,20 +455,24 @@ app.post("/organAdd", function(req, res) {
 
 
 app.get("/nearYou", function(req,res){
-
-    const city = req.session.donor.city;
-    const state = req.session.donor.state;
-    Hospital.find({},function(err,foundHospitals){
-        if(!err){
-            if(foundHospitals){
-                res.render("nearYou",{foundHospitals:foundHospitals, city:city, state:state});
-            }else{
-                res.render("nearYou",{foundHospitals:[],city:city, state:state});
+    if(req.session.donor){
+        const city = req.session.donor.city;
+        const state = req.session.donor.state;
+        Hospital.find({},function(err,foundHospitals){
+            if(!err){
+                if(foundHospitals){
+                    res.render("nearYou",{foundHospitals:foundHospitals, city:city, state:state});
+                }else{
+                    res.render("nearYou",{foundHospitals:[],city:city, state:state});
+                }
+                
             }
             
-        }
-        
-    });
+        });
+    }else{
+        res.render("donorLogin");
+    }
+    
     
 })
 
@@ -468,40 +502,65 @@ app.post("/ngo", function(req,res){
 
 
 app.get("/database",function(req,res){
-    res.render("hospitalDatabase");
+    if(req.session.hospital){
+        res.render("hospitalDatabase");
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
 });
 
 app.get("/profileHospital",function(req,res){
-
-    const email = req.session.hospital.email;
-    Hospital.find({},function(err,foundHospital){
-        console.log(foundHospital);
-        res.render("profileHospital",{foundHospital:foundHospital,email:email});
-    });
+    if(req.session.hospital){
+        const email = req.session.hospital.email;
+        Hospital.find({},function(err,foundHospital){
+            console.log(foundHospital);
+            res.render("profileHospital",{foundHospital:foundHospital,email:email});
+        });
+    }else{
+        res.render("loginHospital");
+    }
+    
     
 });
 
 // Donor nav bar
 
 app.get("/donorForm",function(req,res){
-    res.render("donorForms");
+    if(req.session.donor){
+        res.render("donorForms");
+    }else{
+        res.render("donorLogin");
+    }
+    
 });
 
 app.get("/donorProfile",function(req,res){
-    const email = req.session.donor.email;
-    Donor.find({},function(err,foundDonor){
-        console.log(foundDonor);
-        res.render("donorProfile",{foundDonor:foundDonor, email:email});
-    });
+    if(req.session.donor){
+        const email = req.session.donor.email;
+        Donor.find({},function(err,foundDonor){
+            console.log(foundDonor);
+            res.render("donorProfile",{foundDonor:foundDonor, email:email});
+        });
+    }else{
+        res.render("donorLogin");
+    }
+    
     
 });
 
 app.get("/donorReports",function(req,res){
-    const email = req.session.donor.email;
-    Report.find({},function(err,foundReport){
-        console.log(foundReport);
-        res.render("donorReports",{foundReport:foundReport, email:email});
-    });
+    if(req.session.donor){
+        const email = req.session.donor.email;
+        Report.find({},function(err,foundReport){
+            console.log(foundReport);
+            res.render("donorReports",{foundReport:foundReport, email:email});
+        });
+    }else{
+        res.render("donorLogin");
+    }
+    
 
 });
 

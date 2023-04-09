@@ -90,7 +90,7 @@
     <%foundOrgans.forEach(function(organ){%>
       <%if(String(organ.email)=== String(email)){%>
         <tr>
-          <form action="" method="get" >
+          <form action="/show" method="post" >
           <td>
             <div class="d-flex align-items-center">
               <div class="ms-3">
@@ -107,12 +107,13 @@
           </td>
           <td><%=organ.bloodgroup%></td>
           <td>
-            <button type="submit" class="btn btn-outline-info btn-rounded">
+            <button type="button" class="btn btn-outline-info btn-rounded" >
               View
             </button>
           </td>
           <td>
-            <button type="button" class="btn btn-danger" fdprocessedid="qrfxj7">
+            
+            <button type="submit" class="btn btn-danger" fdprocessedid="qrfxj7" value ="<%=organ._id%>" name="del">
               delete
             </button>
           </td>
