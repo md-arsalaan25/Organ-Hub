@@ -10,7 +10,7 @@ In the exponentially growing population of India, the demand never meets the sup
 
 <p>Moreover, the non- governmental organizations who are striving to encourage people towards donation and such selfless acts need to be aided. Their purpose requires a lot of financial support and they need to be connected with the right people.</p>
 
-<a href = "https://www.figma.com/file/TLYRwTETGe1NEGmx5Aa9Us/HackFest-23?node-id=0%3A1&t=SlEt0Al6AYu83w6N-1">Design</a>
+<a href = "https://www.figma.com/file/q0DCXF6yKXnQ6zE6x0Ramr/HackFest-23-Design?node-id=0%3A1&t=SV3jq5IigOFpaoUI-1">Design-Figma File</a>
 
 <h2>Brief solution</h2>
 
